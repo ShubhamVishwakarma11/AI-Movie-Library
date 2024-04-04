@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 import Summary from "../models/summaryModel";
+import User from "../models/userModel";
+import { generateAISummary } from "../utils/generateAISummary";
 
 export const getAISummary = async (req: Request, res: Response) => {
   try {
@@ -7,10 +9,26 @@ export const getAISummary = async (req: Request, res: Response) => {
     const summary = await Summary.findById(movieId);
 
     if (!summary) {
+      const locals = req.locals;
+      const user_id = locals._id;
+      const user = await User.findOne({ _id: user_id });
+
+      if (!user) {
+        return res
+          .status(500)
+          .json({ status: "error", error: "User doesn't exist" });
+      }
+
+      const favourite = user?.favourites?.find(
+        (fav) => fav.movieId === movieId
+      );
+
+      const aiSummary = await generateAISummary(favourite);
+
       const newSummary = await Summary.create({
         _id: movieId,
         movieId,
-        summary: "This is a demo summary",
+        summary: aiSummary,
       });
 
       return res

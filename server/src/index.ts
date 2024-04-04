@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 
 import userRoutes from "./routes/user";
 import searchRoutes from "./routes/search";
+import summaryRoutes from "./routes/summary";
 import favouriteRoutes from "./routes/favourites";
 import { useAuth } from "./middlewares/auth";
 
@@ -23,6 +24,7 @@ app.use((req, res, next) => {
 // routes
 app.use("/api/user", userRoutes);
 app.use("/api/search", searchRoutes);
+app.use("/api/summary", useAuth, summaryRoutes);
 app.use("/api/favourite", useAuth, favouriteRoutes);
 //connect to db
 const port = process.env.PORT || 8080;

@@ -19,8 +19,21 @@ const favouriteSchema = new Schema(
     },
     genre: {
       type: String,
+      required: false,
+    },
+    type: {
+      type: String,
       required: true,
     },
+    img: {
+      type: String,
+      required: true,
+    },
+    imdbRating: String,
+    language: String,
+    plot: String,
+    runtime: String,
+    released: String,
   },
   { timestamps: true }
 );

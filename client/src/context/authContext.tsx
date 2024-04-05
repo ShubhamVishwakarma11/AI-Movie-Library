@@ -1,5 +1,5 @@
 import { loginController, signupController } from "@/api/auth";
-import { ReactElement, createContext, useState } from "react";
+import { ReactElement, createContext, useEffect, useState } from "react";
 
 interface TAuthContext {
   email: string;
@@ -38,6 +38,15 @@ export const AuthContextProvider = ({
   const [email, setEmail] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user") as string);
+    if (user && user.token && user.email) {
+      setToken(user.token);
+      setEmail(user.email);
+      setIsAuthenticated(true);
+    }
+  }, []);
+
   const login = async (email: string, password: string) => {
     try {
       const token = await loginController(email, password);
@@ -45,6 +54,7 @@ export const AuthContextProvider = ({
         setIsAuthenticated(true);
         setToken(token);
         setEmail(email);
+        localStorage.setItem("user", JSON.stringify({ email, token }));
       }
     } catch (error) {
       setIsAuthenticated(false);
@@ -64,6 +74,7 @@ export const AuthContextProvider = ({
         setIsAuthenticated(true);
         setToken(token);
         setEmail(email);
+        localStorage.setItem("user", JSON.stringify({ email, token }));
       }
     } catch (error) {
       setIsAuthenticated(false);
@@ -76,6 +87,7 @@ export const AuthContextProvider = ({
     setIsAuthenticated(false);
     setToken("");
     setEmail("");
+    localStorage.removeItem("user");
   };
 
   return (

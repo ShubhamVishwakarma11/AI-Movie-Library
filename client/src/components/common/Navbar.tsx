@@ -1,12 +1,13 @@
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "../ui/button";
 import { Link } from "react-router-dom";
+import { IconSearch, IconStar } from "@tabler/icons-react";
 
 const Navbar = () => {
   const { isAuthenticated, email, logout } = useAuth();
   return (
     <>
-      <div className="w-[90%] h-[10vh] flex justify-between items-center px-2 fixed top-0 ">
+      <div className="w-[90%] h-[10vh] flex justify-between items-center px-2 fixed top-0 bg-background z-[99999]">
         <Button variant="link">
           <Link to="/" className="text-brand font-semibold text-3xl">
             OtherFlix AI
@@ -15,18 +16,40 @@ const Navbar = () => {
 
         {isAuthenticated ? (
           <div className="flex justify-center items-center gap-4">
-            <span className="text-md">Hello, {email}</span>
+            {/* <span className="text-md">Hello, {email}</span> */}
             <Button variant="link">
-              <Link to="/search" className="text-lg">
+              <Link
+                to="/search"
+                className="text-lg flex justify-center items-center gap-1"
+              >
+                <IconSearch />
                 Search
               </Link>
             </Button>
-            <Button variant="secondary" onClick={logout}>
+            <Button variant="link">
+              <Link
+                to="/favourites"
+                className="text-lg flex justify-center items-center gap-1"
+              >
+                <IconStar />
+                Favourites
+              </Link>
+            </Button>
+            <Button variant="ghost" onClick={logout} className="text-lg">
               Logout
             </Button>
           </div>
         ) : (
           <div className="flex justify-center items-center gap-2 ">
+            <Button variant="link">
+              <Link
+                to="/search"
+                className="text-lg flex justify-center items-center gap-1"
+              >
+                <IconSearch />
+                Search
+              </Link>
+            </Button>
             <Button variant="link">
               <Link to="/login" className="text-lg">
                 Login

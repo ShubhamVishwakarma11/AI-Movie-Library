@@ -27,7 +27,6 @@ const Login = () => {
         description: "Please fill all the required fields!",
       });
     } else {
-      // write
       await login(email, password);
     }
   };

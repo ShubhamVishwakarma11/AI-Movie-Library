@@ -39,7 +39,7 @@ export const loginUser = async (req: Request, res: Response) => {
 
 export const signupUser = async (req: Request, res: Response) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, confirmPassword } = req.body;
 
     // validation
     if (!email || !password) {
@@ -58,6 +58,13 @@ export const signupUser = async (req: Request, res: Response) => {
       return res
         .status(500)
         .json({ status: "error", error: "Password is not strong enough" });
+    }
+
+    if (password !== confirmPassword) {
+      return res.status(500).json({
+        status: "error",
+        error: `Make sure 'Confirm Password' is same as 'Password' `,
+      });
     }
 
     const exists = await User.findOne({ email });

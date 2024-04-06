@@ -8,7 +8,7 @@ const Home = () => {
   const navigate = useNavigate();
   return (
     <div className="px-2 w-full h-[90vh] flex flex-col items-center justify-center">
-      <div className="flex flex-col gap-6 justify-center items-center w-[75%]">
+      <div className="flex flex-col gap-6 justify-center items-center w-[75%] ">
         <div className="text-6xl text-brand font-semibold text-center ">
           Discover Your Favorite Movies Through AI Summaries
         </div>

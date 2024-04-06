@@ -4,10 +4,10 @@ import { Link } from "react-router-dom";
 import { IconSearch, IconStar } from "@tabler/icons-react";
 
 const Navbar = () => {
-  const { isAuthenticated, email, logout } = useAuth();
+  const { isAuthenticated, logout } = useAuth();
   return (
     <>
-      <div className="w-[90%] h-[10vh] flex justify-between items-center px-2 fixed top-0 bg-background z-[99999]">
+      <div className="w-[90%] h-[10vh] flex md:flex-row flex-col justify-between items-center px-2 fixed top-0 bg-background z-[99999]">
         <Button variant="link">
           <Link to="/" className="text-brand font-semibold text-3xl">
             OtherFlix AI
@@ -15,7 +15,7 @@ const Navbar = () => {
         </Button>
 
         {isAuthenticated ? (
-          <div className="flex justify-center items-center gap-4">
+          <div className="flex justify-center items-center sm:gap-4 gap-1">
             {/* <span className="text-md">Hello, {email}</span> */}
             <Button variant="link">
               <Link
@@ -40,7 +40,7 @@ const Navbar = () => {
             </Button>
           </div>
         ) : (
-          <div className="flex justify-center items-center gap-2 ">
+          <div className="flex justify-center items-center sm:gap-4 gap-1 ">
             <Button variant="link">
               <Link
                 to="/search"

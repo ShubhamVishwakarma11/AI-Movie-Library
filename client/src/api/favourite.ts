@@ -13,7 +13,6 @@ export const addFavouriteMovie = async (movieId: string, token: string) => {
     };
 
     const response = await customAxios(options);
-    console.log("data", response.newFav);
     return response.newFav;
   } catch (error) {
     console.error("ERROR", error);
@@ -31,7 +30,6 @@ export const getAllFavouriteMovies = async (token: string) => {
     };
 
     const response = await customAxios(options);
-    console.log("data", response.favourites);
     return response.favourites;
   } catch (error) {
     console.error("ERROR", error);
@@ -49,7 +47,6 @@ export const getAFavouriteMovie = async (movieId: string, token: string) => {
     };
 
     const response = await customAxios(options);
-    console.log("data", response.favourite);
     return response.favourite;
   } catch (error) {
     console.error("ERROR", error);
@@ -67,7 +64,6 @@ export const removeFavouriteMovie = async (movieId: string, token: string) => {
     };
 
     const response = await customAxios(options);
-    console.log("data", response.newFav);
     return response.newFav;
   } catch (error) {
     console.error("ERROR", error);

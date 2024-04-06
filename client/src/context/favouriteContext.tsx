@@ -48,7 +48,6 @@ export const FavouriteContextProvider = ({
   const getAllFavourite = async () => {
     if (!isAuthenticated || favourites.length !== 0) return;
     const data = await getAllFavouriteMovies(token);
-    console.log("MOVIES", data);
     if (data) setFavourites(data);
   };
 
@@ -63,7 +62,6 @@ export const FavouriteContextProvider = ({
 
     const data = await addFavouriteMovie(movieId, token);
     if (data) {
-      console.log("ADDED MOVIE", data);
       setFavourites(data.favourites);
       navigate(`/movie/${movieId}`);
     }
@@ -91,7 +89,6 @@ export const FavouriteContextProvider = ({
       await getAllFavourite();
     }
     const data = favourites.find((fav) => fav.movieId === movieId);
-    console.log("CHECK", movieId, data);
     if (data) return true;
     return false;
   };

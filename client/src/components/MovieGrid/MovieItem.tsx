@@ -39,7 +39,6 @@ const MovieItem = ({
     if (type === "favourite") setIsFavourite(true);
     (async () => {
       const data = await checkIfFavourite(movie.movieId);
-      console.log("UPPER COMP", data);
       setIsFavourite(data);
     })();
   }, []);

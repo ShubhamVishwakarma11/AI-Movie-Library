@@ -29,7 +29,6 @@ const Movie = () => {
       if (!isAuthenticated || !movieId) return;
       setIsLoading(true);
       const data = await getAFavouriteMovie(movieId, token);
-      console.log("MOVIES", data);
       if (data) {
         setMovie(data);
         const out = data.genre.split(", ");

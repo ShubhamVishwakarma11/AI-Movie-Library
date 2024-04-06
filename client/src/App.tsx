@@ -8,7 +8,7 @@ import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "./hooks/useAuth";
 import Favourites from "./pages/Favourites";
 import Movie from "./pages/Movie";
-import Home from "./Home";
+import Home from "./pages/Home";
 const PrivateRoutes = () => {
   const { isAuthenticated } = useAuth();
   return isAuthenticated ? <Outlet /> : <Navigate to="/login" />;

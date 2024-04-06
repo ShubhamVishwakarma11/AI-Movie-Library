@@ -16,9 +16,23 @@ export const searchController = async (req: Request, res: Response) => {
         .status(500)
         .json({ status: "error", error: "Error in search" });
     }
-    return res
-      .status(200)
-      .json({ status: "success", data: response.data.Search });
+
+    const searchResult = response.data.Search.map(
+      (movie: {
+        Title: string;
+        Year: string;
+        Type: string;
+        Poster: string;
+        imdbID: string;
+      }) => ({
+        title: movie.Title,
+        year: movie.Year,
+        type: movie.Type,
+        img: movie.Poster,
+        movieId: movie.imdbID,
+      })
+    );
+    return res.status(200).json({ status: "success", data: searchResult });
   } catch (error) {
     console.log("ERROR: ", error);
     return res.status(500).json({ status: "error", error: "Error in search" });

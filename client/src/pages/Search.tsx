@@ -55,7 +55,7 @@ const Search = () => {
           </span>
         </div>
       ) : (
-        <MovieList movies={movies} />
+        <MovieList movies={movies} type="search" />
       )}
     </div>
   );

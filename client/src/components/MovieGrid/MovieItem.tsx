@@ -1,13 +1,24 @@
 import { TMovie } from "@/types/movie";
-import { IconLoader2, IconPlus } from "@tabler/icons-react";
+import {
+  IconChevronRight,
+  IconLoader2,
+  IconPlus,
+  IconTrash,
+} from "@tabler/icons-react";
 import { Button } from "../ui/button";
-import { addFavouriteMovie } from "@/api/favourite";
+import { addFavouriteMovie, removeFavouriteMovie } from "@/api/favourite";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "../ui/use-toast";
 import { useState } from "react";
 
-const MovieItem = ({ movie }: { movie: TMovie }) => {
+const MovieItem = ({
+  movie,
+  type,
+}: {
+  movie: TMovie;
+  type: "search" | "favourite";
+}) => {
   const { token, isAuthenticated } = useAuth();
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -23,40 +34,60 @@ const MovieItem = ({ movie }: { movie: TMovie }) => {
 
     setLoading(true);
 
-    const data = await addFavouriteMovie(movie.imdbID, token);
+    const data = await addFavouriteMovie(movie.movieId, token);
     setLoading(false);
-    if (data) navigate("/movie");
+    if (data) navigate(`/movie/${movie.movieId}`);
+  };
+
+  const handleRemoveFavourite = async () => {
+    const data = await removeFavouriteMovie(movie.movieId, token);
+    if (data) navigate("/favourites");
+    setLoading(false);
   };
 
   return (
     <div className="flex border border-border rounded-md w-full p-4 relative">
       <div className="w-[15%]">
-        <img src={movie.Poster} alt={movie.Title} />
+        <img src={movie.img} alt={movie.title} />
       </div>
-      <div className="w-[85%] flex flex-col items-start justify-start p-4">
-        <div className="flex items-center justify-between w-full">
-          <div className="text-xl">{movie.Title}</div>
-          <div className="bg-brand py-2 px-3 rounded-md">
-            {movie.Type === "movie" ? "Movie" : "Series"}
+      <div className="w-[85%] flex flex-col items-start justify-between p-4">
+        <div className="flex flex-col justify-start items-start w-full">
+          <div className="flex items-center justify-between w-full">
+            <div className="text-xl">{movie.title}</div>
+            <div className="bg-brand py-2 px-3 rounded-md">
+              {movie.type === "movie" ? "Movie" : "Series"}
+            </div>
           </div>
+          <div className="text-muted-foreground">{movie.year}</div>
         </div>
-        <div className="text-muted-foreground">{movie.Year}</div>
+        {type === "favourite" && (
+          <Button
+            className="flex items-center justify-center gap-1"
+            onClick={() => navigate(`/movie/${movie.movieId}`)}
+          >
+            <span className="">View Movie Details</span>{" "}
+            <IconChevronRight className="w-5 h-5" />
+          </Button>
+        )}
       </div>
       <Button
         disabled={loading}
-        onClick={handleAddFavourite}
+        onClick={type === "search" ? handleAddFavourite : handleRemoveFavourite}
         variant="secondary"
         className="border border-border rounded-md  absolute right-6 bottom-6 p-4  "
       >
         {loading ? (
           <div className="flex items-center justify-center gap-2">
             <IconLoader2 className=" animate-spin" />
-            <span>Adding</span>
+            <span>{type === "search" ? "Adding" : "Removing"}</span>
           </div>
         ) : (
           <div className="flex items-center justify-center gap-2">
-            <IconPlus />
-            <span>Add to Favourite</span>
+            {type === "search" ? <IconPlus /> : <IconTrash />}
+
+            <span>
+              {type === "search" ? "Add to Favourite" : "Remove from Favourite"}
+            </span>
           </div>
         )}
       </Button>

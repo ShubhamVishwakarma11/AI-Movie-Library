@@ -26,7 +26,7 @@ function App() {
           <Route path="/search" element={<Search />} />
           <Route element={<PrivateRoutes />}>
             <Route path="/favourites" element={<Favourites />} />
-            <Route path="/movie" element={<Movie />} />
+            <Route path="/movie/:movieId" element={<Movie />} />
           </Route>
         </Routes>
         <Toaster />

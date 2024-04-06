@@ -15,7 +15,7 @@ const Search = () => {
         const data = await SearchMovie(query);
         if (data) setMovies(data);
       }
-    }, 1000);
+    }, 500);
     return () => clearTimeout(getMovie);
   };
   useEffect(() => {

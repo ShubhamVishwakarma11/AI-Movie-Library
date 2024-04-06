@@ -31,7 +31,7 @@ const MovieItem = ({ movie }: { movie: TMovie }) => {
   return (
     <div className="flex border border-border rounded-md w-full p-4 relative">
       <div className="w-[15%]">
-        <img src={movie.Poster} />
+        <img src={movie.Poster} alt={movie.Title} />
       </div>
       <div className="w-[85%] flex flex-col items-start justify-start p-4">
         <div className="flex items-center justify-between w-full">

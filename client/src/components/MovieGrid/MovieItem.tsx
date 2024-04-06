@@ -3,14 +3,13 @@ import {
   IconChevronRight,
   IconLoader2,
   IconPlus,
+  IconStar,
   IconTrash,
 } from "@tabler/icons-react";
 import { Button } from "../ui/button";
-import { addFavouriteMovie, removeFavouriteMovie } from "@/api/favourite";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "@/hooks/useAuth";
-import { toast } from "../ui/use-toast";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useFavourite } from "@/hooks/useFavourite";
 
 const MovieItem = ({
   movie,
@@ -19,31 +18,31 @@ const MovieItem = ({
   movie: TMovie;
   type: "search" | "favourite";
 }) => {
-  const { token, isAuthenticated } = useAuth();
+  const { addFavourite, removeFavourite, checkIfFavourite } = useFavourite();
   const [loading, setLoading] = useState(false);
+  const [isFavourite, setIsFavourite] = useState(false);
   const navigate = useNavigate();
 
   const handleAddFavourite = async () => {
-    if (!isAuthenticated) {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "You need to signup first to add a movie to favourites",
-      });
-    }
-
     setLoading(true);
-
-    const data = await addFavouriteMovie(movie.movieId, token);
+    await addFavourite(movie.movieId);
     setLoading(false);
-    if (data) navigate(`/movie/${movie.movieId}`);
   };
 
   const handleRemoveFavourite = async () => {
-    const data = await removeFavouriteMovie(movie.movieId, token);
-    if (data) navigate("/favourites");
+    setLoading(true);
+    await removeFavourite(movie.movieId);
     setLoading(false);
   };
+
+  useEffect(() => {
+    if (type === "favourite") setIsFavourite(true);
+    (async () => {
+      const data = await checkIfFavourite(movie.movieId);
+      console.log("UPPER COMP", data);
+      setIsFavourite(data);
+    })();
+  }, []);
 
   return (
     <div className="flex border border-border rounded-md w-full p-4 relative">
@@ -70,27 +69,33 @@ const MovieItem = ({
           </Button>
         )}
       </div>
-      <Button
-        disabled={loading}
-        onClick={type === "search" ? handleAddFavourite : handleRemoveFavourite}
-        variant="secondary"
-        className="border border-border rounded-md  absolute right-6 bottom-6 p-4  "
-      >
-        {loading ? (
-          <div className="flex items-center justify-center gap-2">
-            <IconLoader2 className=" animate-spin" />
-            <span>{type === "search" ? "Adding" : "Removing"}</span>
-          </div>
-        ) : (
-          <div className="flex items-center justify-center gap-2">
-            {type === "search" ? <IconPlus /> : <IconTrash />}
-
-            <span>
-              {type === "search" ? "Add to Favourite" : "Remove from Favourite"}
-            </span>
-          </div>
+      <div className="absolute right-6 bottom-6 p-4 flex items-center justify-center gap-2 ">
+        {isFavourite && (
+          <IconStar className="text-yellow-500 fill-yellow-500" />
         )}
-      </Button>
+
+        <Button
+          disabled={loading}
+          onClick={!isFavourite ? handleAddFavourite : handleRemoveFavourite}
+          variant="secondary"
+          className="border border-border rounded-md  "
+        >
+          {loading ? (
+            <div className="flex items-center justify-center gap-2">
+              <IconLoader2 className=" animate-spin" />
+              <span>{!isFavourite ? "Adding" : "Removing"}</span>
+            </div>
+          ) : (
+            <div className="flex items-center justify-center gap-2">
+              {!isFavourite ? <IconPlus /> : <IconTrash />}
+
+              <span>
+                {!isFavourite ? "Add to Favourite" : "Remove from Favourite"}
+              </span>
+            </div>
+          )}
+        </Button>
+      </div>
     </div>
   );
 };

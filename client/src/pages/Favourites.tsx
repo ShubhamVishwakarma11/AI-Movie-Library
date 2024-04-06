@@ -1,29 +1,31 @@
-import { getAllFavouriteMovies } from "@/api/favourite";
 import MovieList from "@/components/MovieGrid/MovieList";
-import { useAuth } from "@/hooks/useAuth";
-import { TMovie } from "@/types/movie";
+import { useFavourite } from "@/hooks/useFavourite";
+import { IconLoader2 } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 
 const Favourites = () => {
-  const [movies, setMovies] = useState<TMovie[]>([]);
-  const { isAuthenticated, token } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
+  const { favourites, getAllFavourite } = useFavourite();
 
   useEffect(() => {
     (async () => {
-      if (!isAuthenticated) return;
-      const data = await getAllFavouriteMovies(token);
-      console.log("MOVIES", data);
-      if (data) setMovies(data);
+      setIsLoading(true);
+      await getAllFavourite();
+      setIsLoading(false);
     })();
   }, []);
 
   return (
     <div className="px-2 w-full h-full flex flex-col gap-6 justify-center items-center mt-12">
-      <span className="text-xl">Your Favourites</span>
-      {movies && movies.length === 0 ? (
+      <span className="text-2xl">Your Favourites</span>
+      {isLoading ? (
+        <div className="">
+          <IconLoader2 className="w-8 h-8 animate-spin" />
+        </div>
+      ) : favourites && favourites.length === 0 ? (
         "Start adding movies to your favourite list"
       ) : (
-        <MovieList movies={movies} type="favourite" />
+        <MovieList movies={favourites} type="favourite" />
       )}
     </div>
   );

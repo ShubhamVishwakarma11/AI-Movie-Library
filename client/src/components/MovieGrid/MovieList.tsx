@@ -9,7 +9,7 @@ const MovieList = ({
   type: "search" | "favourite";
 }) => {
   return (
-    <div className="pt-12 flex flex-col justify-center items-center gap-2 w-full">
+    <div className="pt-2 flex flex-col justify-center items-center gap-2 w-full">
       {movies.map((movie) => (
         <MovieItem key={movie.movieId} movie={movie} type={type} />
       ))}

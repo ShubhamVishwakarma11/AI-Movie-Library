@@ -55,18 +55,20 @@ const Movie = () => {
           <IconLoader2 className="w-12 h-12 animate-spin" />
         </div>
       ) : (
-        <div className="flex w-full justify-center items-start">
-          <div className="w-[30%]">
+        <div className="flex flex-col md:flex-row w-full justify-center md:items-start items-center gap-4">
+          <div className="md:w-[30%] w-[60%]">
             <img
               src={movie?.img}
               alt={movie?.title}
               className="w-[24rem] h-auto"
             />
           </div>
-          <div className="w-[40%] flex flex-col justify-start items-start gap-10">
-            <div className="text-6xl font-semibold">{movie?.title}</div>
+          <div className="md:w-[40%] w-[80%] flex flex-col justify-start md:items-start items-center gap-10">
+            <div className="text-6xl font-semibold w-full text-center md:text-start">
+              {movie?.title}
+            </div>
             <div className="text-lg">
-              <div className="flex justify-start items-center gap-6">
+              <div className="flex flex-col sm:flex-row justify-start items-center gap-6">
                 <div className="flex gap-1">
                   <span className="text-muted-foreground ">IMDB Rating:</span>
                   <span> {movie?.imdbRating}</span>
@@ -104,10 +106,13 @@ const Movie = () => {
                 </Button>
               </DrawerTrigger>
               <DrawerContent className="dark bg-background text-foreground">
-                <div className=" mx-auto w-full min-h-[30vh] max-h-[80vh] relative p-12">
+                <div className=" w-full min-h-[30vh] max-h-[80vh] relative p-12">
                   <ScrollArea className=" h-[65vh] md:h-[45vh] flex gap-2 flex-col justify-center w-[70%] md:w-[70%] items-center mx-auto text-center">
                     <DrawerHeader>
-                      <span className="text-3xl"> AI Movie Summary</span>
+                      <span className="text-3xl w-full text-center">
+                        {" "}
+                        AI Movie Summary
+                      </span>
                     </DrawerHeader>
                     <div className="text-lg  text-justify">
                       {isSummaryLoading ? (

@@ -44,19 +44,21 @@ const MovieItem = ({
   }, []);
 
   return (
-    <div className="flex border border-border rounded-md w-full p-4 relative">
-      <div className="w-[15%]">
-        <img src={movie.img} alt={movie.title} />
+    <div className="flex sm:flex-row flex-col sm:items-start items-center border border-border rounded-md h-full w-full gap-2 p-4 relative">
+      <div className="sm:w-[15%] w-[100%]">
+        <img src={movie.img} alt={movie.title} className="w-full" />
       </div>
-      <div className="w-[85%] flex flex-col items-start justify-between p-4">
-        <div className="flex flex-col justify-start items-start w-full">
-          <div className="flex items-center justify-between w-full">
+      <div className="w-[85%] flex flex-col  sm:items-start items-center justify-start h-full gap-2 p-4">
+        <div className="flex flex-col justify-start items-start w-full gap-2 ">
+          <div className="flex sm:flex-row flex-col items-center justify-between w-full gap-2">
             <div className="text-xl">{movie.title}</div>
             <div className="bg-brand py-2 px-3 rounded-md">
               {movie.type === "movie" ? "Movie" : "Series"}
             </div>
           </div>
-          <div className="text-muted-foreground">{movie.year}</div>
+          <div className="text-muted-foreground w-full sm:text-start text-center">
+            {movie.year}
+          </div>
         </div>
         {type === "favourite" && (
           <Button
@@ -68,7 +70,7 @@ const MovieItem = ({
           </Button>
         )}
       </div>
-      <div className="absolute right-6 bottom-6 p-4 flex items-center justify-center gap-2 ">
+      <div className="sm:absolute  relative sm:right-6  bottom-6 p-4 flex items-center justify-center gap-2 ">
         {isFavourite && (
           <IconStar className="text-yellow-500 fill-yellow-500" />
         )}

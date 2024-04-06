@@ -15,7 +15,7 @@ export const loginController = async (email: string, password: string) => {
 
     return token;
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
 
@@ -38,6 +38,6 @@ export const signupController = async (
 
     return token;
   } catch (error) {
-    console.log("ERROR", error);
+    console.error("ERROR", error);
   }
 };

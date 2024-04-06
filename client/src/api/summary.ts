@@ -12,7 +12,6 @@ export const getAIMovieSummary = async (movieId: string, token: string) => {
     };
 
     const response = await customAxios(options);
-    console.log("data", response.summary);
     return response.summary;
   } catch (error) {
     console.error("ERROR", error);

@@ -33,7 +33,7 @@ const Login = () => {
 
   return (
     <div className="px-2 w-full h-full flex justify-center items-center ">
-      <div className="w-[30%] flex flex-col gap-4 justify-center h-[90vh] ">
+      <div className="md:w-[30%] w-[80%] flex flex-col gap-4 justify-center h-[90vh] ">
         <h1 className="text-4xl font-semibold mb-4">Login</h1>
         <Input
           id="email"

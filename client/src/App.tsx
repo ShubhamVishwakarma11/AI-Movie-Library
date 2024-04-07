@@ -9,12 +9,16 @@ import { useAuth } from "./hooks/useAuth";
 import Favourites from "./pages/Favourites";
 import Movie from "./pages/Movie";
 import Home from "./pages/Home";
+import { useEffect } from "react";
 const PrivateRoutes = () => {
   const { isAuthenticated } = useAuth();
   return isAuthenticated ? <Outlet /> : <Navigate to="/login" />;
 };
 
 function App() {
+  useEffect(() => {
+    document.title = "OtherFlix AI";
+  }, []);
   return (
     <div className="dark bg-background text-foreground w-full flex items-start min-h-[100vh] justify-center  relative">
       <div className="flex flex-col w-[90%] justify-center relative">

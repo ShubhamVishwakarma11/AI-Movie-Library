@@ -42,7 +42,7 @@ export const signupUser = async (req: Request, res: Response) => {
     const { email, password, confirmPassword } = req.body;
 
     // validation
-    if (!email || !password) {
+    if (!email || !password || !confirmPassword) {
       return res
         .status(500)
         .json({ status: "error", error: "All fields are required" });
@@ -78,12 +78,15 @@ export const signupUser = async (req: Request, res: Response) => {
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(password, salt);
 
-    const user = await User.create({ email, password: hash });
+    const user = await User.create({ email, password: hash, favourites: [] });
+
+    console.log("USER", user);
 
     const token = createToken(user._id);
 
     return res.status(200).json({ status: "success", data: { token } });
   } catch (err) {
+    console.error("ERROR", err);
     return res.status(500).json({ status: "error", error: "Signup Failed!" });
   }
 };
